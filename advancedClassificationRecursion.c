@@ -42,4 +42,3 @@ int numDigitsRec(int num) {
         return 1;
     return 1 + numDigitsRec(num/10);
 }
-//check
