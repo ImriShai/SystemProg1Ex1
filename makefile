@@ -1,31 +1,40 @@
 CC=gcc
 AR=ar
 OBJECTS_MAIN=main.o
-OBJECTS_LIB=
 FLAGS= -Wall -g
-.PHONEY: all, clean
 
 all: mains loops recursives recursived loopd maindloop maindrec
 
 clean:
-	rm -f *.o *.a *.so mains maindloop maindrec # why only mains?
+	rm -f *.o *.a *.so mains maindloop maindrec
 
-loops: advancedClassificationLoop.o basicClassification.o
+.PHONY: clean all
+
+loops: libclassloops.a
+
+libclassloops.a: advancedClassificationLoop.o basicClassification.o
 	$(AR) -rcs libclassloops.a advancedClassificationLoop.o basicClassification.o
 
-recursives: advancedClassificationRecursion.o basicClassification.o
+recursives: libclassrec.a
+
+libclassrec.a: advancedClassificationRecursion.o basicClassification.o
 	$(AR) -rcs libclassrec.a advancedClassificationRecursion.o basicClassification.o
 
-recursived: advancedClassificationRecursion.o basicClassification.o
+recursived: libclassrec.so
+
+libclassrec.so: advancedClassificationRecursion.o basicClassification.o
 	$(CC) -shared -o libclassrec.so advancedClassificationRecursion.o basicClassification.o
 
-loopd: advancedClassificationLoop.o basicClassification.o
+loopd: libclassloops.so
+
+libclassloops.so: advancedClassificationLoop.o basicClassification.o
 	$(CC) -shared -o libclassloops.so advancedClassificationRecursion.o basicClassification.o
 
-mains:
+mains: $(OBJECTS_MAIN) libclassrec.a
+	$(CC) $(FLAGS) -o mains $(OBJECTS_MAIN) libclassrec.a
 
-maindloop:
+maindloop: $(OBJECTS_MAIN) libclassloops.so
+	$(CC) $(FLAGS) -o maindloop $(OBJECTS_MAIN) ./libclassloops.so
 
-maindrec:
-
-
+maindrec: $(OBJECTS_MAIN) libclassrec.so
+	$(CC) $(FLAGS) -o maindrec $(OBJECTS_MAIN) ./libclassrec.so
