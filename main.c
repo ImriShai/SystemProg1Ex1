@@ -25,12 +25,12 @@ int main() {
     }
     printf("\nThe Prime numbers are:");
     for (int i = start; i<=end; i++){
-        if (isArmstrong(i))
+        if (isPrime(i))
             printf(" %d",i);
     }
-    printf("\nThe Strong numbers are: 1 2 145");
+    printf("\nThe Strong numbers are:");
     for (int i = start; i<=end; i++){
-        if (isArmstrong(i))
+        if (isStrong(i))
             printf(" %d",i);
     }
 
