@@ -10,6 +10,7 @@
 int powRec(int base, int power);
 int numDigitsRec(int);
 int isArmstrongHelper(int num, int sum, int numDigits);
+int reverse(int num);
 
 int isArmstrong(int num) {
     return isArmstrongHelper(num,num, numDigitsRec(num));
@@ -20,16 +21,9 @@ int isArmstrongHelper(int num, int sum, int numDigits) {
 }
 
 int isPalindrome(int num) {
-    if (num < 10)
-        return TRUE;
-    int length = numDigitsRec(num);
-    int tens = powRec(10, length-1);
-    int l = num / tens;
-    int r = num % 10;
-    if (l != r)
-        return FALSE;
-    return isPalindrome((num - l*tens) / 10);
+    return num == reverse(num);
 }
+
 
 int powRec(int base,int power) {
     if(power == 0)
@@ -41,4 +35,9 @@ int numDigitsRec(int num) {
     if (num < 10)
         return 1;
     return 1 + numDigitsRec(num/10);
+}
+int reverse(int num){
+    int digits = numDigitsRec(num);
+    if(num==0) return 0;
+    return (num%10)*powRec(10,digits-1) + reverse(num/10);
 }

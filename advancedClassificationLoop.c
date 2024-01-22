@@ -22,17 +22,14 @@ int isArmstrong(int num) {
 }
 
 int isPalindrome(int num) {
-    int length = numDigits(num);
-    int tens = power(10,length-1);
-    while (num > 9) {
-        if ((num / tens) != (num % 10))
-            return FALSE;
-
-        num -= (num/tens)*tens;
-        num /= 10;
-        tens /= 100;
+    int reversed = 0;
+    int temp = num;
+    while(temp>0){
+        reversed = reversed*10 + temp%10;
+        temp = temp/10;
     }
-    return TRUE;
+    return reversed == num;
+
 }
 
 int power(int base, int power) {

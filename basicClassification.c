@@ -11,8 +11,8 @@ int factorial(int num);
 
 int isPrime(int num) {
     int i;
-    if (num == 1) {
-        return FALSE;
+    if (num == 1||num==2) {
+        return TRUE;
     }
     if (num%2==0) {
         return FALSE;
