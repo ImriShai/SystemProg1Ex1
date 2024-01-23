@@ -11,9 +11,9 @@ ADVANCEDREC = advancedClassificationRecursion.o
 all: mains loops recursives recursived loopd maindloop maindrec
 
 clean:
-	rm -f *.o *.a *.so mains maindloop maindrec
+	rm -f *.o *.a *.so *.gch mains maindloop maindrec
 
-.PHONY: clean all mains loops recursives recursived loopd maindloop maindrec
+.PHONY: clean all 
 
 loops: libclassloops.a
 
