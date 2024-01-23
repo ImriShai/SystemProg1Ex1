@@ -3,6 +3,9 @@ AR=ar
 MAIN=main.o
 FLAGS= -Wall -g
 HEADER = NumClass.h
+BASIC = basicClassification.o
+ADVANCEDLOOP = advancedClassificationLoop.o
+ADVANCEDREC = advancedClassificationRecursion.o
 
 
 all: mains loops recursives recursived loopd maindloop maindrec
@@ -14,29 +17,41 @@ clean:
 
 loops: libclassloops.a
 
-libclassloops.a: advancedClassificationLoop.o basicClassification.o $(HEADER)
-	$(AR) -rcs $@ $^
+libclassloops.a: $(ADVANCEDLOOP) $(BASIC)
+	$(AR) rcs $@ $^
 
 recursives: libclassrec.a
 
-libclassrec.a: advancedClassificationRecursion.o basicClassification.o $(HEADER)
-	$(AR) -rcs $@ $^
+libclassrec.a: $(ADVANCEDREC) $(BASIC) 
+	$(AR) rcs $@ $^
 
 recursived: libclassrec.so
 
-libclassrec.so: advancedClassificationRecursion.o basicClassification.o $(HEADER)
-	$(CC) -shared -o $@ $^
+libclassrec.so: $(ADVANCEDREC) $(BASIC) 
+	$(CC) -shared -Wall -o $@ $^
 
 loopd: libclassloops.so
 
-libclassloops.so: advancedClassificationLoop.o basicClassification.o $(HEADER)
-	$(CC) -shared -o $@ $^
+libclassloops.so: $(ADVANCEDLOOP) $(BASIC)
+	$(CC) -shared -Wall  -o $@ $^ 
 
 mains: $(MAIN) libclassrec.a
-	$(CC) $(FLAGS) -o $@ $^
+	$(CC) $(FLAGS) -o $@ $< ./libclassrec.a
 
 maindloop: $(MAIN) libclassloops.so
-	$(CC) $(FLAGS) -o $@ $(MAIN) ./libclassloops.so
+	$(CC) $(FLAGS) $< ./libclassloops.so -o $@
 
 maindrec: $(MAIN) libclassrec.so
-	$(CC) $(FLAGS) -o $@ $(MAIN) ./libclassrec.so
+	$(CC) $(FLAGS) $< -o $@ $(MAIN) ./libclassrec.so 
+
+$(ADVANCEDREC): $(ADVANCEDREC:.o=.c) $(HEADER)
+	$(CC) $(FLAGS) -c $< -o $@ -fPIC
+
+$(ADVANCEDLOOP): $(ADVANCEDLOOP:.o=.c) $(HEADER)
+	$(CC) $(FLAGS) -c $< -o $@ -fPIC
+
+$(BASIC): $(BASIC:.o=.c) $(HEADER)
+	$(CC) $(FLAGS) -c $< -o $@ -fPIC
+
+$(MAIN): $(MAIN:.o=.c) $(HEADER)
+	$(CC) $(FLAGS) -c $< -o $@
