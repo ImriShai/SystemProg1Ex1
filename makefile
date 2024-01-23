@@ -42,7 +42,7 @@ maindloop: $(MAIN) libclassloops.so
 	$(CC) $(FLAGS) $< ./libclassloops.so -o $@
 
 maindrec: $(MAIN) libclassrec.so
-	$(CC) $(FLAGS) $< -o $@ $(MAIN) ./libclassrec.so 
+	$(CC) $(FLAGS) $< ./libclassrec.so -o $@
 
 $(ADVANCEDREC): $(ADVANCEDREC:.o=.c) $(HEADER)
 	$(CC) $(FLAGS) -c $< -o $@ -fPIC
