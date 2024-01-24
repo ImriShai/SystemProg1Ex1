@@ -25,6 +25,7 @@ int isPrime(int num) {
     return TRUE;
 }
 int isStrong(int num) {
+    if(num==0) return FALSE;
     int sum = 0;
     int temp = num;
     while (temp > 0) {
